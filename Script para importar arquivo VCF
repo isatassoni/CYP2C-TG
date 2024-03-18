@@ -1,0 +1,40 @@
+#load pacotes vcfR, adegenet
+library('vcfR')
+library('adegenet')
+library('tibble')
+library('dplyr')
+
+library(vcfR)
+
+#importar vcf pro R
+vcfCYP2C18 <- read.vcfR(file.choose())
+
+#meta data, fixed data e genotype data
+#genotype é o que tá importando aqui, fixed é informação do cromossomo e meta é meta
+
+#extrair genotype data em dataframe
+gt <- extract.gt(vcfCYPC18, element = "GT")
+
+gt2 <- as.data.frame(gt)
+
+library(tibble)
+
+gt2 <- gt2 %>% rownames_to_column(var = "SNPs")
+class(gt2$SNPs)
+??filter
+
+#SNPs do haplótipo = rs2860840.T e o rs11188059.G
+SNPs_filtrados <- gt2 %>% 
+  filter(SNPs %in% c('rs11188059', 'rs2860840'))
+
+
+#transpor para depois adicionar populações
+SNPs_filtrados2 <- as.data.frame(t(SNPs_filtrados))
+SNPs_filtrados2 <- tibble::rownames_to_column(SNPs_filtrados2,"ID")
+
+colnames(SNPs_filtrados2) <- c("ID", "rs11188059", "rs2860840")
+SNPs_filtrados2 <- SNPs_filtrados2 [-1,]
+
+write.table(SNPs_filtrados, 'Tabela_SNPs.txt')
+
+
