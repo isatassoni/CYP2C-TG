@@ -1,0 +1,87 @@
+install.packages("tidyr")
+install.packages("haplo.stats")
+library(haplo.stats)
+library(dplyr)
+library(tidyr)
+library(stringr)
+
+
+#Separando as colunas dos SNPs
+SNPs.separados <- SNPs_filtrados2 %>% 
+  separate_wider_delim(rs11188059, "|", names = c("rs11188059_1", "rs11188059_2")) %>%
+  separate_wider_delim(rs2860840, "|", names = c("rs2860840_1", "rs2860840_2"))
+
+
+#Mesclar nome dos SNPs
+SNPt <- as.data.frame(t(SNP1))
+SNPt <- SNPt %>% rownames_to_column(var = "ID")
+
+SNPt2 <- as.data.frame(t(SNPt))
+
+colnames(SNPt2) <- SNPt2$V1
+
+
+#No haplo.em
+geno = read.table(file.choose(SNPs_filtrados2), head= TRUE, sep = "\t")
+
+dim(SNPs.separados)
+
+SNP1$ID <- NULL        #Removi coluna "ID"
+SNP.semID <- SNP1
+
+#cada locus tem um par de colunas adjascentes de alelos
+#a ordem das colunas é a ordem dos loci em um cromossomo
+#se houver N loci, o nº de colunas é 2N
+
+
+teste <- SNPs.semID2
+
+# Trocando 0 = G / 1 = A no rs11188059
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 1] == 0) {SNPs.semID2[i, 1] <- "G"}}
+
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 1] == 1) {SNPs.semID2[i, 1] <- "A"}}
+
+
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 2] == 0) {SNPs.semID2[i, 2] <- "G"}}
+
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 2] == 1) {SNPs.semID2[i, 2] <- "A"}}
+
+
+# Trocando 0 = C / 1 = T no rs2860840
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 3] == 0) {SNPs.semID2[i, 3] <- "C"}}
+
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 3] == 1) {SNPs.semID2[i, 3] <- "T"}}
+
+
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 4] == 0) {SNPs.semID2[i, 4] <- "C"}}
+
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 4] == 1) {SNPs.semID2[i, 4] <- "T"}}
+
+
+result.haplo <- haplo.em(as.matrix(SNPs.semID2), locus.label = c('rs11188059', 'rs2860840'), miss.val=NA)
+
+
+install.packages("openxlsx")
+library(openxlsx)
+
+
+names(result.haplo)
+result.haplo
+
+resultado <- summary(result.haplo)
+
+
+install.packages("clipr")
+library(clipr)
+
+write_clip(result.haplo[["resultado"]])
+
+
