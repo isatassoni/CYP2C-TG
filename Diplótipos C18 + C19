@@ -1,0 +1,25 @@
+#load packages
+library(haplo.stats)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(readxl)
+
+zaza <- read_xlsx(choose.files(), sheet = "Input")
+
+SNPsseparadosNAT <- zaza %>%
+  separate_wider_delim(estrela, "/", names = c("estrela_1", "estrela_2")) %>%
+  separate_wider_delim(rs2860840, "/", names = c("rs2860840_1", "rs2860840_2")) %>%
+  separate_wider_delim(rs11188059, "/", names = c("rs11188059_1", "rs11188059_2"))
+
+SNPsNATSemID <- SNPsseparadosNAT
+SNPsNATSemID$ID <- NULL
+
+resulthaploNAT <- haplo.em(as.matrix(SNPsNATSemID), locus.label = c('estrela', 'rs2860840', 'rs11188059'), miss.val=NA)
+resulthaploNAT[["haplotype"]]
+
+library(openxlsx)
+
+resultadoNAT <- summary(resulthaploNAT)
+
+write.xlsx(resultadoNAT, 'HaploStarTG.xlsx')
