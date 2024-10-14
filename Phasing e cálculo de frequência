@@ -7,14 +7,13 @@ library(openxlsx)
 library(tidyr)
 library(stringr)
 
-#importando o arquivo vcf pro R (vcf é o input)
+#importar vcf pro R
 vcfNAT <- read.vcfR(file.choose())
 
 #extrair genotype data em dataframe
 gtNAT <- extract.gt(vcfNAT, element = "GT")
 
 gtNAT2 <- as.data.frame(gtNAT)
-
 
 gtNAT2 <- gtNAT2 %>% rownames_to_column(var = "SNPs")
 class(gtNAT2$SNPs)
@@ -41,7 +40,8 @@ SNPsfiltradosNAT2 <- SNPsfiltradosNAT2 %>%
 
 SNPsfiltradosNAT2 <- SNPsfiltradosNAT2 %>%
   slice(-1)
-                                                  #ou
+
+                  #ou
 
 colnames(SNPsfiltradosNAT2) <- c("ID", "rs11188059", "rs2860840")
 SNPsfiltradosNAT2 <- SNPsfiltradosNAT2 [-1,]
@@ -54,7 +54,6 @@ write.xlsx(SNPsfiltradosNAT2, 'SNPsNAT.txt')
 #Separando os alelos em duas colunas
 library(haplo.stats)
 
-
 SNPsseparadosNAT <- SNPsfiltradosNAT2 %>% 
   separate_wider_delim(rs11188059, "/", names = c("rs11188059_1", "rs11188059_2")) %>%
   separate_wider_delim(rs2860840, "/", names = c("rs2860840_1", "rs2860840_2"))
@@ -62,42 +61,43 @@ SNPsseparadosNAT <- SNPsfiltradosNAT2 %>%
 
 #Pra rodar no haplo.em
 
-#removi coluna "ID"
+#removi coluna "ID" (o comando pede só as colunas com os alelos)
 
 SNPsNATSemID <- SNPsseparadosNAT
 SNPsNATSemID$ID <- NULL
 
-SNPsNATSemID2 <- SNPsNATSemID
+
+SNPsNATSemID2 <- SNPsNATSemID      #backup pra garantir
 
 
 # Trocando 0 = G / 1 = A no rs11188059
-for (i in 1:nrow(SNPsNATSemID2)) {
-  if (SNPsNATSemID2[i, 1] == 0) {SNPsNATSemID2[i, 1] <- "G"}}
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 1] == 0) {SNPs.semID2[i, 1] <- "G"}}
 
-for (i in 1:nrow(SNPsNATSemID2)) {
-  if (SNPsNATSemID2[i, 1] == 1) {SNPsNATSemID2[i, 1] <- "A"}}
-
-
-for (i in 1:nrow(SNPsNATSemID2)) {
-  if (SNPsNATSemID2[i, 2] == 0) {SNPsNATSemID2[i, 2] <- "G"}}
-
-for (i in 1:nrow(SNPsNATSemID2)) {
-  if (SNPsNATSemID2[i, 2] == 1) {SNPsNATSemID2[i, 2] <- "A"}}
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 1] == 1) {SNPs.semID2[i, 1] <- "A"}}
 
 
-# Trocando 0 = T / 1 = C no rs2860840
-for (i in 1:nrow(SNPsNATSemID2)) {
-  if (SNPsNATSemID2[i, 3] == 0) {SNPsNATSemID2[i, 3] <- "T"}}
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 2] == 0) {SNPs.semID2[i, 2] <- "G"}}
 
-for (i in 1:nrow(SNPsNATSemID2)) {
-  if (SNPsNATSemID2[i, 3] == 1) {SNPsNATSemID2[i, 3] <- "C"}}
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 2] == 1) {SNPs.semID2[i, 2] <- "A"}}
 
 
-for (i in 1:nrow(SNPsNATSemID2)) {
-  if (SNPsNATSemID2[i, 4] == 0) {SNPsNATSemID2[i, 4] <- "T"}}
+# Trocando 0 = C / 1 = T no rs2860840
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 3] == 0) {SNPs.semID2[i, 3] <- "C"}}
 
-for (i in 1:nrow(SNPsNATSemID2)) {
-  if (SNPsNATSemID2[i, 4] == 1) {SNPsNATSemID2[i, 4] <- "C"}}
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 3] == 1) {SNPs.semID2[i, 3] <- "T"}}
+
+
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 4] == 0) {SNPs.semID2[i, 4] <- "C"}}
+
+for (i in 1:nrow(SNPs.semID2)) {
+  if (SNPs.semID2[i, 4] == 1) {SNPs.semID2[i, 4] <- "T"}}
 
 
 #Rodando o comando do phasing
@@ -107,46 +107,6 @@ resulthaploNAT <- haplo.em(as.matrix(SNPsNATSemID2), locus.label = c('rs11188059
 library(openxlsx)
 resultadoNAT <- summary(resulthaploNAT)
 
+
 library(clipr)
 write.xlsx(resultadoNAT, 'resultadoNAT')
-
-
-
-# ----------------------- Próximo passo: Cálculo de frequências -----------------------
-
-#input da tabela Resultados NATperuanos
-library(readxl)
-POPNAT <- read_xlsx(choose.files(), sheet = "input2")
-
-
-#Criar uma nova coluna com os valores das colunas 2 e 3, separados por espaço
-
-library(dplyr)
-POPNAT$geno <- apply(POPNAT[,3:4], 1, paste, collapse = ' ')
-
-
-#Criar um vetor com o nome de todas as populações. 
-lista_popNAT <- c ('CHOPCCAS', 'CUSCO', 'IQUITOS', 'MATZES', 'MOCHES', 'TRUJILLO', 'UROS')
-lista_popNAT2 <- c ('CHOP', 'CUSC', 'IQUI', 'MATZ', 'MOCH', 'TRUJ', 'UROS')
-
-
-#Loop  para filtrar os individuos de uma pop e depois calcular a  frequencia e salvar em objeto com nome da população
-
-library(adegenet)
-
-for (i in lista_popNAT2) {
-  df <- POPNAT %>%
-    select(popCode, geno) %>%  #Seleciona as colunas
-    filter(popCode == i)       #Seleciona as linhas
-  
-  print(i)
-  pop_genind <- df2genind(X = df, sep = ' ', ploidy = 2, ncode = 2) #converte o banco de dados que temos em genind 
-  pop_genpop <- genind2genpop(pop_genind) #converte o genind em genpop 
-  freq <- makefreq (pop_genpop, quiet = FALSE, missing = NA, truenames = TRUE) #calcula a frequencia da populaçao
-  #Cria um objeto que armazena a frequencia e recebe o nome da pop
-  nome_df <- paste("freq_", i, sep = "") 
-  assign(nome_df, freq)
-  print(  assign(nome_df, freq))
-}
-
-
