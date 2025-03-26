@@ -3,24 +3,24 @@ library(pacman)
 pacman::p_load(vcfR, adegenet, haplo.stats, tibble, tidyr, dplyr, string, clipr, openxlsx, readxl)
 
 
-#importar vcf pro R
+# Importar vcf pro R
 vcfCYP2C18_NAT <- read.vcfR(file.choose())
 
-#extrair genotype data em dataframe
+# Extrair genotype data em dataframe
 gtNAT <- extract.gt(vcfCYP2C18_NAT, element = "GT")
 gtNAT2 <- as.data.frame(gtNAT)
 gtNAT2 <- gtNAT2 %>% rownames_to_column(var = "SNPs")
 class(gtNAT2$SNPs)
 
-#SNPs do haplótipo = rs2860840.T e o rs11188059.G
+# SNPs do haplótipo = rs2860840.T e o rs11188059.G
 SNPsfiltradosNAT <- gtNAT2 %>% 
   filter(SNPs %in% c('rs11188059', 'rs2860840'))
 
-#transpor para depois adicionar populações
+# Transpor para depois adicionar populações
 SNPsfiltradosNAT2 <- as.data.frame(t(SNPsfiltradosNAT))
 SNPsfiltradosNAT2 <- tibble::rownames_to_column(SNPsfiltradosNAT2,"ID")
 
-#renomeei as colunas e removi a linha 1
+# Renomeei as colunas e removi a linha 1
 colnames(SNPsfiltradosNAT2) <- c("ID", "rs11188059", "rs2860840")
 SNPsfiltradosNAT2 <- SNPsfiltradosNAT2 [-1,]
 
@@ -29,7 +29,7 @@ write.xlsx(SNPsfiltradosNAT2, 'SNPsNAT.xlsx')
 
 # ----------------------- Haplo.stats ----------------------- 
 
-#Separando os alelos em duas colunas
+# Separando os alelos em duas colunas
 SNPsseparadosNAT <- SNPsfiltradosNAT2 %>% 
   separate_wider_delim(rs11188059, "/", names = c("rs11188059_1", "rs11188059_2")) %>%
   separate_wider_delim(rs2860840, "/", names = c("rs2860840_1", "rs2860840_2"))
@@ -72,7 +72,7 @@ for (i in 1:nrow(SNPsNATSemID2)) {
   if (SNPsNATSemID2[i, 4] == 1) {SNPsNATSemID2[i, 4] <- "C"}}
 
 
-#Rodar o comando do phasing
+# Rodar o comando do phasing
 resulthaploNAT <- haplo.em(as.matrix(SNPsNATSemID2), locus.label = c('rs11188059', 'rs2860840'), miss.val=NA)
 
 resultadoNAT <- summary(resulthaploNAT)
@@ -84,22 +84,22 @@ write.xlsx(resultadoNAT, 'resultadoNAT.xlsx', rowNames = F)
 
 # ----------------------- Cálculo de frequências -----------------------
 
-#input da tabela Resultados NATperuanos
+# input da tabela Resultados NATperuanos
 library(readxl)
 POPNAT <- read_xlsx(choose.files(), sheet = "NAT")
 
 
-#Criar um vetor com o nome de todas as populações. 
+# Criar um vetor com o nome de todas as populações. 
 lista_popNAT <- c ('CHOPCCAS', 'CUSCO', 'IQUITOS', 'MATZES', 'MOCHES', 'TRUJILLO', 'UROS')
 lista_popNAT <- c ('CHO', 'CUS', 'IQUI', 'MATZ', 'MOCH', 'TRUJ', 'UROS')
 
 
-#Criar uma nova coluna com os valores das colunas POP e FREQ, separados por espaço
+# Criar uma nova coluna com os valores das colunas POP e FREQ, separados por espaço
 POPNAT$geno <- apply(POPNAT[,3:4], 1, paste, collapse = ' ')
 POPNAT2 <- POPNAT[,c(2,5)]
 
-#Cálculo da frequência
 
+# Cálculo da frequência
 pop_genindNAT <- df2genind(X = POPNAT2, pop = POPNAT2$POP, sep = ' ', ploidy = 2, ncode = 2) #converte o bando de dados que temos em genind 
 pop_genpopNAT <- genind2genpop(pop_genindNAT) #converte o genind em genpop 
 freqNAT <- makefreq (pop_genpopNAT, quiet = FALSE, missing = NA, truenames = TRUE) #calcula a frequencia da populaçao
@@ -110,7 +110,7 @@ write.xlsx(freqNAT, 'freqNAT.xlsx', colNames = TRUE, rowNames = TRUE)
 
 
 
-#---------------------------------------------------------------------------------------------------
+# ----------------------- Regressão -----------------------
 
 # Lê o arquivo da Frequência e cria uma lista com os SNPs
 df <- read.xlsx(file.choose())
