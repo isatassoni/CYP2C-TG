@@ -27,6 +27,7 @@ write.xlsx(SNPs_filtrados2, 'SNPs1KG.xlsx', rowNames = F)
 
 
 # ----------------------- Haplo.stats ----------------------- 
+# No haplo.em
 
 # Separando as colunas
 SNPs_separados1KG <- SNPs_filtrados2 %>% 
@@ -34,9 +35,7 @@ SNPs_separados1KG <- SNPs_filtrados2 %>%
   separate_wider_delim(rs2860840, "|", names = c("rs2860840_1", "rs2860840_2"))
 
 
-# No haplo.em
-
-#removi coluna "ID" (o comando pede só as colunas com os alelos)
+# Removi coluna "ID" (o comando pede só as colunas com os alelos)
 SNPs1KGSemID <- SNPs_separados1KG
 SNPs1KGSemID$ID <- NULL
 
