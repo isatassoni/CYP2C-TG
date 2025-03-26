@@ -35,7 +35,7 @@ SNPsseparadosNAT <- SNPsfiltradosNAT2 %>%
   separate_wider_delim(rs2860840, "/", names = c("rs2860840_1", "rs2860840_2"))
 
 
-# Pra rodar no haplo.em
+# No haplo.em
 #removi coluna "ID" (o comando pede só as colunas com os alelos)
 
 SNPsNATSemID <- SNPsseparadosNAT
