@@ -195,36 +195,3 @@ write.xlsx(Regress, "Resultadocorrelação", rowNames = FALSE)
 
 
 
-# ----------------------- Freq Alélica -----------------------
-
-#Input da tabela com os SNPs
-popData <- read_xlsx(choose.files(), sheet = "Planilha1")
-
-dados <- popData
-
-# Função corrigida para calcular a frequência alélica
-calcular_frequencia_alelo <- function(df, snp, alelo) {
-  df %>%
-    separate({{ snp }}, into = c("Alelo1", "Alelo2"), sep = "/") %>%
-    pivot_longer(cols = c(Alelo1, Alelo2), values_to = "Alelo") %>%
-    count(POP, Alelo, name = "Contagem") %>%
-    group_by(POP) %>%
-    mutate(Frequencia = Contagem / sum(Contagem)) %>%
-    ungroup() %>%
-    complete(POP, Alelo, fill = list(Frequencia = 0, Contagem = 0)) %>%  # Garante que todas as POPs apareçam
-    filter(Alelo == alelo) %>%
-    select(POP, Alelo, Frequencia)
-}
-
-# Teste com os dados carregados (substitua por seu arquivo CSV se necessário)
-freq_rs2860840 <- calcular_frequencia_alelo(dados, rs2860840, "T")
-freq_rs11188059 <- calcular_frequencia_alelo(dados, rs11188059, "A")
-
-
-library(openxlsx)
-write.xlsx(freq_rs2860840, "freq_rs2860840.xlsx", colNames = TRUE, rowNames = TRUE)
-
-write.xlsx(freq_rs11188059, "freq_rs11188059.xlsx", colNames = TRUE, rowNames = TRUE)
-
-
-
