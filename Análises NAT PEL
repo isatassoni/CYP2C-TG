@@ -36,6 +36,7 @@ SNPsseparadosNAT <- SNPsfiltradosNAT2 %>%
 
 
 # No haplo.em
+
 #removi coluna "ID" (o comando pede só as colunas com os alelos)
 
 SNPsNATSemID <- SNPsseparadosNAT
