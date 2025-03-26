@@ -1,125 +1,53 @@
 #load packages
-library(ggplot2)
-library(ggimage)
-library(readxl)
-library(dplyr)
+library(pacman)
+pacman::p_load( ggplot2, ggimage, readxl, dplyr)
 
 
-# Exemplo com imagens
-img_urls <- c("C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\93.png",   #CHOPCCAS
-              "C:\\Users\\isado\\Downloads\\grossura80\\84.png",   #CUSCO
-              "C:\\Users\\isado\\Downloads\\grossura80\\105.png",  #IQUITOS
-              "C:\\Users\\isado\\Downloads\\grossura80\\92.png",   #MATZES
-              "C:\\Users\\isado\\Downloads\\grossura80\\91.png",   #MOCHES
-              "C:\\Users\\isado\\Downloads\\grossura80\\90.png",   #TRUJILLO
-              "C:\\Users\\isado\\Downloads\\grossura80\\107.png" ) #UROS
+freq <- read_excel(choose.files(), sheet = "freq_1TG", col_names = T)
 
-freq_ances <- read_excel(choose.files(), sheet = "ancestralidade", col_names = T)
+img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\lwk.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\esn.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\yri.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\msl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gwd.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\acb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\asw.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\clm.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mxl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pur.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pel.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tsi.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ibs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gbr.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ceu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\fin.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pjl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gih.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\itu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\stu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\beb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cdx.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\khv.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png"  ) #UROS
 
-vetor_cont_NAT <- c('Africanos', 'Miscigenados', 'Europeus', 'Sul Asiático', 'Leste Asiático',
-                    'CHOPCCAS', 'CUSCO', 'IQUITOS', 'MATZES', 'MOCHES', 'TRUJILLO', 'UROS')
+freq$`1TG` <- as.numeric(freq$`1TG`)
+freq$ANAT <- as.numeric(freq$ANAT)
 
-freq_ances <- freq %>%
-  inner_join(freq_ances, by = "POP")
-
-freq_ances$TG <- as.numeric(freq_ances$TG)
-freq_ances$NAT <- as.numeric(freq_ances$NAT)
-
-ggplot(freq_ances, aes(NAT, TG)) +
+ggplot(freq, aes(ANAT, `1TG`)) +
   geom_image(aes(image = img_urls), size = 0.05) +
-  labs(y = "Frequência do CYP2C:TG",                  # modifica a legenda do eixo y
-       x = "Ancestralidade Nativo Americana (NAT)",   # modifica a legenda do eixo x
-       color = "População", # vai modificar legenda da legenda
-       title = "Ancestralidade Nativo Americana (NAT) x CYP2C:TG")+ # coloca um titulo para o grafico
-  theme(axis.title.y = element_text(size = 15,
-                                    margin = margin(r = 15)), # para fazer mudanças nas legendas e eixo y
-        axis.title.x = element_text(size = 15,
-                                    margin = margin(t = 15)), # para fazer mudanças nas legendas e eixo x
-        legend.title = element_text(face = "bold", size = 14), # coloca a legenda em negrito e muda o tamanho da fonte
-        title = element_text(size = 14, 
-                             face = "bold",
-                             margin = margin(b = 15)),
-        plot.title = element_text(hjust = 0.5),
-        axis.text = element_text(size = 14)) +
-  theme_minimal() +
-  scale_x_continuous(breaks = seq(0, 1, by = 0.1)) +    # ajustando os intervalos do eixo x
-  scale_y_continuous(breaks = seq(0, 0.8, by = 0.1)) +  # ajustando os intervalos do eixo y
-  theme(
-    axis.text.x = element_text(size = 8),  # ajustando o tamanho do texto do eixo x
-    axis.text.y = element_text(size = 8)   # ajustando o tamanho do texto do eixo y
-  )
-
-##############################################################################################################################
-
-img_urls <- c("C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\95.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\93.png",   #CHOPCCAS
-              "C:\\Users\\isado\\Downloads\\grossura80\\84.png",   #CUSCO
-              "C:\\Users\\isado\\Downloads\\grossura80\\105.png",  #IQUITOS
-              "C:\\Users\\isado\\Downloads\\grossura80\\92.png",   #MATZES
-              "C:\\Users\\isado\\Downloads\\grossura80\\91.png",   #MOCHES
-              "C:\\Users\\isado\\Downloads\\grossura80\\90.png",   #TRUJILLO
-              "C:\\Users\\isado\\Downloads\\grossura80\\107.png" ) #UROS
-
-freq_ances$TG <- as.numeric(freq_ances$TG)
-freq_ances$NAT2 <- as.numeric(freq_ances$NAT2)
-
-ggplot(freq_ances, aes(NAT2, TG)) +
-  geom_image(aes(image = img_urls), size = 0.05) +
-  labs(y = "Frequência do CYP2C:TG", #modificar legendo do eixo y
-       x = "Ancestralidade Nativo Americana (NAT2)", #modificar legendo do eixo x
+  labs(y = "*1TG frequency", #modificar legenda do eixo y
+       x = "Andean Native American (A-NAT)", #modificar legenda do eixo x
        color = "População", #vai modificar legenda da legenda
-       title = "Ancestralidade Nativo Americana (NAT2) x CYP2C:TG")+ #Coloca um titulo para o grafico
+       title = "Andean Native American (A-NAT) x *1TG")+ #Coloca um titulo para o grafico
   theme(axis.title.y = element_text(size = 15, #para fazer mudanças nas legendas e eixo y
                                     margin = margin(r = 15)),
         axis.title.x = element_text(size = 15, 
@@ -139,116 +67,56 @@ ggplot(freq_ances, aes(NAT2, TG)) +
   )
 
 
-##############################################################################################################################
 
-img_urls <- c("C:\\Users\\isado\\Downloads\\grossura80\\86.png", #LWK
-              "C:\\Users\\isado\\Downloads\\grossura80\\87.png", #ESN
-              "C:\\Users\\isado\\Downloads\\grossura80\\88.png", #YRI
-              "C:\\Users\\isado\\Downloads\\grossura80\\94.png", #MSL
-              "C:\\Users\\isado\\Downloads\\grossura80\\96.png", #GWD
-              "C:\\Users\\isado\\Downloads\\grossura80\\100.png", #ACB
-              "C:\\Users\\isado\\Downloads\\grossura80\\103.png", #ASW
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #CHOPCCAS
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #CUSCO
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #IQUITOS
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #MATZES
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #MOCHES
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #TRUJILLO
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png" ) #UROS
+#==============================================================================================================================
 
-freq_ances$TG <- as.numeric(freq_ances$TG)
-freq_ances$AFRL <- as.numeric(freq_ances$AFRL)
+freq <- read_excel(choose.files(), sheet = "freq_34TG", col_names = T)
 
-ggplot(freq_ances, aes(AFRL, TG)) +
+img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\lwk.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\esn.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\yri.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\msl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gwd.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\acb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\asw.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\clm.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mxl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pur.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pel.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tsi.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ibs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gbr.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ceu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\fin.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pjl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gih.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\itu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\stu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\beb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cdx.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\khv.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png"  ) #UROS
+
+freq$`34TG` <- as.numeric(freq$`34TG`)
+freq$SAS <- as.numeric(freq$SAS)
+
+ggplot(freq, aes(SAS, `34TG`)) +
   geom_image(aes(image = img_urls), size = 0.05) +
-  labs(y = "Frequência do CYP2C:TG",                  # modifica a legenda do eixo y
-       x = "Ancestralidade Leste Africana (AFRL)",    # modifica a legenda do eixo x
-       color = "População", # vai modificar legenda da legenda
-       title = "Ancestralidade Leste Africana (AFRL) x CYP2C:TG")+ # coloca um titulo para o grafico
-  theme(axis.title.y = element_text(size = 15,
-                                    margin = margin(r = 15)), # para fazer mudanças nas legendas e eixo y
-        axis.title.x = element_text(size = 15,
-                                    margin = margin(t = 15)), # para fazer mudanças nas legendas e eixo x
-        legend.title = element_text(face = "bold", size = 14), # coloca a legenda em negrito e muda o tamanho da fonte
-        title = element_text(size = 14, 
-                             face = "bold",
-                             margin = margin(b = 15)),
-        plot.title = element_text(hjust = 0.5),
-        axis.text = element_text(size = 14)) +
-  theme_minimal() +
-  scale_x_continuous(breaks = seq(0, 1, by = 0.1)) +    # ajustando os intervalos do eixo x
-  scale_y_continuous(breaks = seq(0, 0.8, by = 0.1)) +  # ajustando os intervalos do eixo y
-  theme(
-    axis.text.x = element_text(size = 8),  # ajustando o tamanho do texto do eixo x
-    axis.text.y = element_text(size = 8)   # ajustando o tamanho do texto do eixo y
-  )
-
-
-############################################################################################################################
-img_urls2 <- c("C:\\Users\\isado\\Downloads\\grossura80\\86.png", #LWK
-              "C:\\Users\\isado\\Downloads\\grossura80\\87.png", #ESN
-              "C:\\Users\\isado\\Downloads\\grossura80\\88.png", #YRI
-              "C:\\Users\\isado\\Downloads\\grossura80\\94.png", #MSL
-              "C:\\Users\\isado\\Downloads\\grossura80\\96.png", #GWD
-              "C:\\Users\\isado\\Downloads\\grossura80\\100.png", #ACB
-              "C:\\Users\\isado\\Downloads\\grossura80\\103.png", #ASW
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\99.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\101.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\85.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\83.png",
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #CHOPCCAS
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #CUSCO
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #IQUITOS
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #MATZES
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #MOCHES
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png", #TRUJILLO
-              "C:\\Users\\isado\\Downloads\\grossura80\\104.png" ) #UROS
-
-freq_ances$TG <- as.numeric(freq_ances$TG)
-freq_ances$AFRO <- as.numeric(freq_ances$AFRO)
-
-ggplot(freq_ances, aes(AFRO, TG)) +
-  geom_image(aes(image = img_urls), size = 0.05) +
-  labs(y = "Frequência do CYP2C:TG",                #modificar legendo do eixo y
-       x = "Ancestralidade Oeste Africana (AFRO)",  #modificar legendo do eixo x
+  labs(y = "*34TG frequency", #modificar legenda do eixo y
+       x = "South Asian (SAS)", #modificar legenda do eixo x
        color = "População", #vai modificar legenda da legenda
-       title = "Ancestralidade Oeste Africana (AFRO) x CYP2C:TG")+ #Coloca um titulo para o grafico
+       title = "South Asian (SAS) x *34TG")+ #Coloca um titulo para o grafico
   theme(axis.title.y = element_text(size = 15, #para fazer mudanças nas legendas e eixo y
-                                    margin = margin(r = 15)),#funçao que explica como os elementos que nao sao os dados sao representados
+                                    margin = margin(r = 15)),
         axis.title.x = element_text(size = 15, 
                                     margin = margin(t = 15)),#para fazer mudanças nas legendas e eixo y
         legend.title = element_text(face = "bold", size = 14), #colaca o legenda em negrito e muda o tamanho da fonte
@@ -259,9 +127,276 @@ ggplot(freq_ances, aes(AFRO, TG)) +
         axis.text = element_text(size = 14)) +
   theme_minimal() +
   scale_x_continuous(breaks = seq(0, 1, by = 0.1)) +  # Ajustando os intervalos do eixo x
-  scale_y_continuous(breaks = seq(0, 0.8, by = 0.1)) +  # Ajustando os intervalos do eixo y
+  scale_y_continuous(breaks = seq(0, 0.04, by = 0.005)) +  # Ajustando os intervalos do eixo y
   theme(
     axis.text.x = element_text(size = 8),  # Ajustando o tamanho do texto do eixo x
     axis.text.y = element_text(size = 8)   # Ajustando o tamanho do texto do eixo y
   )
+
+
+#==============================================================================================================================
+
+freq <- read_excel(choose.files(), sheet = "freq_1CG1TG", col_names = T)
+
+img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\lwk.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\esn.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\yri.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\msl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gwd.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\acb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\asw.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\clm.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mxl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pur.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pel.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tsi.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ibs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gbr.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ceu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\fin.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pjl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gih.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\itu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\stu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\beb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cdx.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\khv.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png" ) #UROS
+
+freq$`1CG/1TG` <- as.numeric(freq$`1CG/1TG`)
+freq$CNAT <- as.numeric(freq$CNAT)
+
+ggplot(freq, aes(CNAT, `1CG/1TG`)) +
+  geom_image(aes(image = img_urls), size = 0.05) +
+  labs(y = "*1CG/*1TG frequency", #modificar legenda do eixo y
+       x = "Cost/Amazonian Native America (CNAT)", #modificar legenda do eixo x
+       color = "População", #vai modificar legenda da legenda
+       title = "Cost/Amazonian Native America (CNAT) x *1CG/*1TG")+ #Coloca um titulo para o grafico
+  theme(axis.title.y = element_text(size = 15, #para fazer mudanças nas legendas e eixo y
+                                    margin = margin(r = 15)),
+        axis.title.x = element_text(size = 15, 
+                                    margin = margin(t = 15)),#para fazer mudanças nas legendas e eixo y
+        legend.title = element_text(face = "bold", size = 14), #colaca o legenda em negrito e muda o tamanho da fonte
+        title = element_text(size = 14, 
+                             face = "bold",
+                             margin = margin(b = 15)),
+        plot.title = element_text(hjust = 0.5),
+        axis.text = element_text(size = 14)) +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(0, 1, by = 0.1)) +  # Ajustando os intervalos do eixo x
+  scale_y_continuous(breaks = seq(0, 0.6, by = 0.1)) +  # Ajustando os intervalos do eixo y
+  theme(
+    axis.text.x = element_text(size = 8),  # Ajustando o tamanho do texto do eixo x
+    axis.text.y = element_text(size = 8)   # Ajustando o tamanho do texto do eixo y
+  )
+
+
+#==============================================================================================================================
+
+freq <- read_excel(choose.files(), sheet = "freq_1TG1TG", col_names = T)
+
+img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\lwk.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\esn.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\yri.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\msl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gwd.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\acb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\asw.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\clm.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mxl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pur.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pel.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tsi.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ibs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gbr.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ceu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\fin.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pjl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gih.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\itu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\stu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\beb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cdx.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\khv.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png"  ) #UROS
+
+freq$`1TG/1TG` <- as.numeric(freq$`1TG/1TG`)
+freq$ANAT <- as.numeric(freq$ANAT)
+
+ggplot(freq, aes(ANAT, `1TG/1TG`)) +
+  geom_image(aes(image = img_urls), size = 0.05) +
+  labs(y = "*1TG/*1TG frequency", #modificar legenda do eixo y
+       x = "Andean Native America (ANAT)", #modificar legenda do eixo x
+       color = "População", #vai modificar legenda da legenda
+       title = "Andean Native America (ANAT) x *1TG/*1TG")+ #Coloca um titulo para o grafico
+  theme(axis.title.y = element_text(size = 15, #para fazer mudanças nas legendas e eixo y
+                                    margin = margin(r = 15)),
+        axis.title.x = element_text(size = 15, 
+                                    margin = margin(t = 15)),#para fazer mudanças nas legendas e eixo y
+        legend.title = element_text(face = "bold", size = 14), #colaca o legenda em negrito e muda o tamanho da fonte
+        title = element_text(size = 14, 
+                             face = "bold",
+                             margin = margin(b = 15)),
+        plot.title = element_text(hjust = 0.5),
+        axis.text = element_text(size = 14)) +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(0, 1, by = 0.1)) +  # Ajustando os intervalos do eixo x
+  scale_y_continuous(breaks = seq(0, 0.6, by = 0.1)) +  # Ajustando os intervalos do eixo y
+  theme(
+    axis.text.x = element_text(size = 8),  # Ajustando o tamanho do texto do eixo x
+    axis.text.y = element_text(size = 8)   # Ajustando o tamanho do texto do eixo y
+  )
+
+
+
+#==============================================================================================================================
+
+freq <- read_excel(choose.files(), sheet = "freq_1TG3CG", col_names = T)
+
+img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\lwk.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\esn.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\yri.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\msl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gwd.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\acb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\asw.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\clm.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mxl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pur.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pel.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tsi.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ibs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gbr.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ceu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\fin.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pjl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gih.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\itu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\stu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\beb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cdx.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\khv.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png"  ) #UROS
+
+freq$`1TG/3CG` <- as.numeric(freq$`1TG/3CG`)
+freq$EASO <- as.numeric(freq$EASO)
+
+ggplot(freq, aes(EASO, `1TG/3CG`)) +
+  geom_image(aes(image = img_urls), size = 0.05) +
+  labs(y = "*1TG/*3CG frequency", #modificar legenda do eixo y
+       x = "West East Asian (EASO)", #modificar legenda do eixo x
+       color = "População", #vai modificar legenda da legenda
+       title = "West East Asian (EASO) x *1TG/3CG")+ #Coloca um titulo para o grafico
+  theme(axis.title.y = element_text(size = 15, #para fazer mudanças nas legendas e eixo y
+                                    margin = margin(r = 15)),
+        axis.title.x = element_text(size = 15, 
+                                    margin = margin(t = 15)),#para fazer mudanças nas legendas e eixo y
+        legend.title = element_text(face = "bold", size = 14), #colaca o legenda em negrito e muda o tamanho da fonte
+        title = element_text(size = 14, 
+                             face = "bold",
+                             margin = margin(b = 15)),
+        plot.title = element_text(hjust = 0.5),
+        axis.text = element_text(size = 14)) +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(0, 1, by = 0.1)) +  # Ajustando os intervalos do eixo x
+  scale_y_continuous(breaks = seq(0, 0.03, by = 0.005)) +  # Ajustando os intervalos do eixo y
+  theme(
+    axis.text.x = element_text(size = 8),  # Ajustando o tamanho do texto do eixo x
+    axis.text.y = element_text(size = 8)   # Ajustando o tamanho do texto do eixo y
+  )
+
+
+
+#==============================================================================================================================
+
+freq <- read_excel(choose.files(), sheet = "freq_1TG17CG", col_names = T)
+
+img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\lwk.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\esn.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\yri.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\msl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gwd.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\acb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\asw.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\clm.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mxl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pur.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pel.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tsi.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ibs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gbr.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\ceu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\fin.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\pjl.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\gih.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\itu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\stu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\beb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cdx.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\khv.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png"  ) #UROS
+
+freq$`1TG/17CG` <- as.numeric(freq$`1TG/17CG`)
+freq$EURS <- as.numeric(freq$EURS)
+
+ggplot(freq, aes(EURS, `1TG/17CG`)) +
+  geom_image(aes(image = img_urls), size = 0.05) +
+  labs(y = "*1TG/*17CG frequency", #modificar legenda do eixo y
+       x = "South European (EURS)", #modificar legenda do eixo x
+       color = "População", #vai modificar legenda da legenda
+       title = "South European (EURS) x *1TG/*17CG")+ #Coloca um titulo para o grafico
+  theme(axis.title.y = element_text(size = 15, #para fazer mudanças nas legendas e eixo y
+                                    margin = margin(r = 15)),
+        axis.title.x = element_text(size = 15, 
+                                    margin = margin(t = 15)),#para fazer mudanças nas legendas e eixo y
+        legend.title = element_text(face = "bold", size = 14), #colaca o legenda em negrito e muda o tamanho da fonte
+        title = element_text(size = 14, 
+                             face = "bold",
+                             margin = margin(b = 15)),
+        plot.title = element_text(hjust = 0.5),
+        axis.text = element_text(size = 14)) +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(0, 1, by = 0.1)) +  # Ajustando os intervalos do eixo x
+  scale_y_continuous(breaks = seq(0, 0.11, by = 0.02)) +  # Ajustando os intervalos do eixo y
+  theme(
+    axis.text.x = element_text(size = 8),  # Ajustando o tamanho do texto do eixo x
+    axis.text.y = element_text(size = 8)   # Ajustando o tamanho do texto do eixo y
+  )
+
 
