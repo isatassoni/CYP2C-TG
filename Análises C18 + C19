@@ -1,0 +1,165 @@
+#load packages
+library(haplo.stats)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(readxl)
+library(openxlsx)
+library(clipr)
+library(adegenet)
+
+#load input
+zaza <- read_xlsx(choose.files(), sheet = "Planilha1")
+
+HaploStarTG <- zaza %>%
+  separate_wider_delim(estrela, "/", names = c("estrela_1", "estrela_2")) %>%
+  separate_wider_delim(rs2860840, "/", names = c("rs2860840_1", "rs2860840_2")) %>%
+  separate_wider_delim(rs11188059, "/", names = c("rs11188059_1", "rs11188059_2"))
+
+HaploStarTGSemID <- HaploStarTG
+HaploStarTGSemID$ID <- NULL
+
+resulthaplo1819 <- haplo.em(as.matrix(HaploStarTGSemID), locus.label = c('estrela', 'rs2860840', 'rs11188059'), miss.val=NA)
+resulthaplo1819[["haplotype"]]
+
+resulthaplo1819 <- summary(resulthaplo1819)
+
+write.xlsx(resulthaplo1819, 'HaploStarTG.xlsx')
+
+write.xlsx(resulthaplo1819[["haplotype"]], "Combinações.xlsx")
+
+
+# ----------------------- Cálculo de frequências -----------------------
+
+#Usar o input freq
+library(readxl)
+C1819 <- read_xlsx(choose.files(), sheet = "C18 + C19")
+
+
+#Criar um vetor com o nome de todas as populações. 
+lista_pops <- c ('LWK', 'GWD', 'ESN', 'YRI', 'MSL',
+                 'ACB', 'ASW', 'CLM', 'MXL', 'PUR', 'PEL',
+                 'TSI', 'IBS', 'GBR', 'CEU', 'FIN',
+                 'PJL', 'GIH', 'ITU', 'STU', 'BEB',
+                 'CDX', 'KHV', 'CHS', 'CHB', 'JPT',
+                 'CHO', 'CUS', 'IQUI', 'MATZ', 'MOCH', 'TRUJ', 'UROS')
+
+
+#Criar uma nova coluna com os valores das colunas 3 e 4, separados por espaço
+
+C1819$geno <- apply(C1819[,3:4], 1, paste, collapse = ' ')
+
+C18192 <- C1819[,c(2,5)]
+
+
+#Para calcular a freq do genótipo 18 + 19
+
+pop_genind1819 <- df2genind(X = C18192, pop = C18192$POP, sep = "", ploidy = 1, ncode = 2) #converte o bando de dados que temos em genind 
+pop_genpop1819 <- genind2genpop(pop_genind1819) #converte o genind em genpop 
+freq1819 <- makefreq (pop_genpop1819, quiet = FALSE, missing = NA, truenames = TRUE) #calcula a frequencia da populaçao
+
+freq1819 <- as.data.frame(freq1819)
+
+write.xlsx(freq1819, 'freq1819.xlsx', colNames = TRUE, rowNames = TRUE)
+
+                #ou
+
+#Para calcular a freq dos alelos 18 + 19
+
+pop_genind1819 <- df2genind(X = C18192, pop = C18192$POP, sep = ' ', ploidy = 2, ncode = 2) #converte o bando de dados que temos em genind 
+pop_genpop1819 <- genind2genpop(pop_genind1819) #converte o genind em genpop 
+freq1819 <- makefreq (pop_genpop1819, quiet = FALSE, missing = NA, truenames = TRUE) #calcula a frequencia da populaçao
+
+freq1819 <- as.data.frame(freq1819)
+
+write.xlsx(freq1819, 'freq1819.xlsx', colNames = TRUE, rowNames = TRUE)
+
+
+# ----------------------- Correlação -----------------------
+
+# Lê o arquivo da Frequência Alélica e cria uma lista com os SNPs
+df <- read_xlsx(choose.files(), sheet = "2")
+
+
+# Lista de SNPs
+lista_snps <- setdiff(names(df), c("POP", "NAT2", "SAS", "WAFR", "EASW", 
+                                   "SEUR", "NAT", "NEUR", "EAFR", "EASE"))
+
+calcular_correlacoes <- function(arquivo_excel, lista_snps) {
+  resultados <- list()
+  
+  for (snp in lista_snps) {
+    # Verifica se o SNP é numérico e converte se necessário
+    if (!is.numeric(df[[snp]])) {
+      df[[snp]] <- as.numeric(df[[snp]])
+    }
+    
+    # Cria data frame das ancestralidades e assegura tipos numéricos
+    media_k9 <- data.frame(NAT2 = as.numeric(df$NAT2), 
+                           SAS = as.numeric(df$SAS), 
+                           WAFR = as.numeric(df$WAFR), 
+                           EASW = as.numeric(df$EASW),
+                           SEUR = as.numeric(df$SEUR), 
+                           NAT = as.numeric(df$NAT), 
+                           NEUR = as.numeric(df$NEUR), 
+                           EAFR = as.numeric(df$EAFR), 
+                           EASE = as.numeric(df$EASE))
+    lista_ances <- names(media_k9)
+    
+    resultados_df <- data.frame(SNP = character(), 
+                                Beta = numeric(), 
+                                p_regr = numeric(),
+                                p_adj = numeric(),
+                                R_sqr_ajustado = numeric(), 
+                                Ancestralidade = character(),
+                                stringsAsFactors = FALSE)
+    
+    p_values <- numeric() # Lista para armazenar p-values antes da correção
+    
+    for (nome in lista_ances) {
+      reg_model <- lm(df[[snp]] ~ media_k9[[nome]])
+      summary_reg <- summary(reg_model)
+      
+      # Verifica se há coeficientes válidos
+      if (nrow(summary_reg$coefficients) > 1) {
+        beta <- summary_reg$coefficients[2, "Estimate"]
+        p_value <- summary_reg$coefficients[2, "Pr(>|t|)"]
+        adjusted_r_squared <- summary_reg$adj.r.squared
+      } else {
+        beta <- NA
+        p_value <- NA
+        adjusted_r_squared <- NA
+      }
+      
+      p_values <- c(p_values, p_value) # Armazena p-values
+      
+      resultados_df <- rbind(resultados_df, 
+                             data.frame(SNP = snp, 
+                                        Ancestralidade = nome,
+                                        Beta = beta,
+                                        p_adj = NA, # Placeholder
+                                        R_sqr_ajustado = adjusted_r_squared,
+                                        p_regr = p_value))
+    }
+    
+    # Bonferroni correction
+    p_adj_values <- p.adjust(p_values, method = "bonferroni")
+    resultados_df$p_adj <- p_adj_values
+    
+    resultados[[snp]] <- resultados_df
+  }
+  
+  return(resultados)
+}
+
+# Chama a função e armazena o resultado
+resultados <- calcular_correlacoes(arquivo_excel = "C:\\Users\\isado\\OneDrive\\UFTM\\Biomedicina - Isadora\\GP-PGx\\Artigo TCC\\vcf, dados e inputs.xlsx", lista_snps = lista_snps)
+
+# Combina os dataframes individuais em um único dataframe
+Regress <- dplyr::bind_rows(resultados)
+
+# Exporta os resultados para um arquivo Excel
+write.xlsx(Regress, "Resultadocorrelação1819.xlsx", rowNames = FALSE)
+
+
+
