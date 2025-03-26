@@ -90,8 +90,10 @@ lista1KG <- c ('LWK', 'GWD',                                    #'ESN', 'YRI', '
                'CDX', 'KHV', 'CHS', 'CHB', 'JPT')
 
 
+# Criar uma nova coluna com os valores das colunas POP e FREQ, separados por espaço
 POP1KG$geno <- apply(POP1KG[,3:4], 1, paste, collapse = ' ')
 POP1KGP <- POP1KG[,c(2,5)]
+
 
 # Cálculo da frequência
 pop_genind <- df2genind(X = POP1KGP, pop = POP1KGP$POP, sep = ' ', ploidy = 2, ncode = 2) #converte o bando de dados que temos em genind 
