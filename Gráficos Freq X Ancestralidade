@@ -1,6 +1,6 @@
 #load packages
 library(pacman)
-pacman::p_load( ggplot2, ggimage, readxl, dplyr)
+pacman::p_load(ggplot2, ggimage, readxl, dplyr)
 
 
 freq <- read_excel(choose.files(), sheet = "freq_1TG", col_names = T)
@@ -31,13 +31,13 @@ img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura8
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png"  ) #UROS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png") 
 
 freq$`1TG` <- as.numeric(freq$`1TG`)
 freq$ANAT <- as.numeric(freq$ANAT)
@@ -98,13 +98,13 @@ img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura8
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png"  ) #UROS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png")
 
 freq$`34TG` <- as.numeric(freq$`34TG`)
 freq$SAS <- as.numeric(freq$SAS)
@@ -164,13 +164,13 @@ img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura8
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png" ) #UROS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",  
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png")
 
 freq$`1CG/1TG` <- as.numeric(freq$`1CG/1TG`)
 freq$CNAT <- as.numeric(freq$CNAT)
@@ -230,13 +230,13 @@ img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura8
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png"  ) #UROS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",  
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",  
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",  
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png") 
 
 freq$`1TG/1TG` <- as.numeric(freq$`1TG/1TG`)
 freq$ANAT <- as.numeric(freq$ANAT)
@@ -297,13 +297,13 @@ img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura8
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png"  ) #UROS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",  
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",  
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png") 
 
 freq$`1TG/3CG` <- as.numeric(freq$`1TG/3CG`)
 freq$EASO <- as.numeric(freq$EASO)
@@ -364,13 +364,13 @@ img_urls <- c("C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura8
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chs.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\chb.png",
               "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\jpt.png",
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",   #CHOPCCAS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png",   #CUSCO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png",  #IQUITOS
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",   #MATZES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",   #MOCHES
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png",   #TRUJILLO
-              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png"  ) #UROS
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cho.png",  
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\cus.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\iqu.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\mat.png",  
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\moc.png",  
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\tru.png", 
+              "C:\\Users\\caiqu\\Downloads\\ISADORA\\Grafico_Peruanos\\grossura80\\uro.png")
 
 freq$`1TG/17CG` <- as.numeric(freq$`1TG/17CG`)
 freq$EURS <- as.numeric(freq$EURS)
