@@ -1,12 +1,7 @@
 #load packages
-library(haplo.stats)
-library(dplyr)
-library(tidyr)
-library(stringr)
-library(readxl)
-library(openxlsx)
-library(clipr)
-library(adegenet)
+library(pacman)
+pacman::p_load(vcfR, adegenet, haplo.stats, tibble, tidyr, dplyr, string, clipr, openxlsx, readxl)
+
 
 #load input
 zaza <- read_xlsx(choose.files(), sheet = "Planilha1")
