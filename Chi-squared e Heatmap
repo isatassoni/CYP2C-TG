@@ -1,0 +1,141 @@
+library(pacman)
+pacman::p_load(dplyr, readxl, ggplot2, tidyr, tools, openxlsx)
+
+#Input Excel
+Inputexcel <- "C:\\Users\\caiqu\\Downloads\\ISADORA\\input_qui_quadrado.xlsx" # Define o caminho do arquivo de entrada
+#Ou escolher na pasta Inputexcel <- file.choose() # Ou permite ao usuário escolher o arquivo de entrada
+
+# Diretório Output (se não existir o caminho ele é criado sozinho aqui)
+directory <- "C:\\Users\\caiqu\\Downloads\\ISADORA\\" # Define o caminho do diretório de saída
+
+nome_gene <- file_path_sans_ext(basename(Inputexcel))
+
+fun_qui_quadrado <- function(planilha, sheet_name) {
+  
+  colunas <- c(1, 3, 4) # Define um vetor com os índices das colunas de interesse
+  nomes_colunas <- colnames(planilha)[colunas] # Extrai os nomes das colunas de interesse
+  
+  planilha <- planilha[, colunas] # Filtra a planilha para manter apenas as colunas de interesse
+  nome_pop <- colnames(planilha)[1] # Extrai o nome da primeira coluna
+  
+  
+  #col_indices <- c(1, 2, 3, 4) # Define um vetor com os índices das colunas a serem renomeadas
+  
+  planilha$COM_TG <- as.numeric(planilha$COM_TG) # Converte a coluna 4 em numérica
+  planilha$SEM_TG <- as.numeric(planilha$SEM_TG)
+  
+  
+  # Criar uma lista para armazenar os resultados
+  resultado <- list()
+  list_pop <- planilha$POP
+
+  # Gerar todas as combinações únicas de pares de populações
+  
+  for (pop in list_pop) { # Inicia um loop para cada SNP
+    print(pop)
+    linha1 <- planilha %>%
+      select(POP, COM_TG, SEM_TG) %>%
+      filter(POP == pop)
+    
+    
+    for (pop2 in list_pop) {
+      
+      linha2 <- planilha %>%
+        select(POP, COM_TG, SEM_TG) %>%
+        filter(POP == pop2)
+      
+      input <- rbind(linha1, linha2)
+      name <- paste(pop, pop2, sep = "_")
+      print(input)
+      
+      # Verifica se o data frame filtrado tem alguma linha
+      resultado[[name]] <- chisq.test(input[, c('COM_TG', 'SEM_TG')]) 
+    }
+  }
+  
+
+  # Cria um data frame vazio
+  df <- data.frame(POP = character(),  squared = numeric(), 
+                   dfredom = numeric(), p_valor = numeric(), stringsAsFactors = FALSE) # Cria um data frame vazio com as colunas SNP, Freq_Caso, N_Caso, Freq_Controle, N_Controle e p_valor
+  
+  nomes_elementos_lista <- names(resultado)
+ 
+   # Preenche o data frame com os valores do resultado do teste qui-quadrado e os valores de N Caso e N Controle
+  for (i in nomes_elementos_lista) { # Inicia um loop para cada SNP
+    if (i %in% names(resultado)) { # Verifica se o SNP atual está na lista de resultados
+      p_valor <- resultado[[i]]$p.value # Extrai o valor de p do resultado do teste qui-quadrado para o SNP atual
+      squared <- resultado[[i]]$statistic
+      dfredom <- resultado[[i]]$parameter
+      df <- rbind(df, data.frame(POP = i, squared = squared,
+                                 dfredom = dfredom, p_valor = p_valor)) # Adiciona uma nova linha ao data frame com os valores extraídos
+    } else {
+      cat("Não foram encontrados resultados para o SNP", i, "\n") # Em caso de ausência de resultados, imprime uma mensagem com o nome do SNP
+    }
+  }
+  
+  # Aplicar correção de Bonferroni
+  df["p_adj"] <- p.adjust(df$p_valor, method = "bonferroni")
+  
+  
+  if (!dir.exists(directory)) { # Verifica se o diretório de saída existe
+    dir.create(directory, recursive = TRUE) # Se não existir, cria o diretório de forma recursiva
+  }
+  
+  file_path <- file.path(directory, paste0(nome_gene, "_", sheet_name, "_pvalor", ".xlsx")) # Define o caminho completo do arquivo CSV de saída
+  
+  write.xlsx(df, file = file_path, rowNames = FALSE)
+  
+  # Salva o data frame em um arquivo XLSX
+  return(resultado)
+  
+}
+
+# Retorna a lista de resultados dos testes qui-quadrado
+planilhas <- lapply(excel_sheets(Inputexcel), read_excel, path = Inputexcel, col_names = TRUE)
+
+# Itera em loop cada planilha para fazer o teste qui-quadrado
+for (i in seq_along(planilhas)) {
+  planilha <- planilhas[[i]]  # Obtém o data frame da planilha atual
+  sheet_name <- excel_sheets(Inputexcel)[i]  # Obtém o nome da planilha atual
+  resultado <- fun_qui_quadrado(planilha, sheet_name) # Chama a função fun_qui_quadrado com a planilha e o nome da planilha como argumentos e armazena o resultado em uma variável
+  # Process or save the results as needed
+}
+
+
+
+# ---------------------- Criando um gráfico heatmap ----------------------
+
+dados <- read_xlsx(choose.files(), sheet = "Sheet 1")
+dados <- dados %>%
+  separate(POP, into = c("POP1", "POP2"), sep = "_")
+
+
+formatar_valores <- function(x) {
+  if (x <= 0.001) {
+    return(sprintf("%.2e", x))  # Notação científica com 2 casas decimais
+  } else {
+    return(sprintf("%.3f", x))  # Número com 3 casas decimais
+  }
+}
+
+# Aplicando a função a cada valor da coluna
+dados["formatado"] <- sapply(dados$p_adj, formatar_valores)
+
+dados$POP1 <- factor(dados$POP1, levels = unique(dados$POP2))
+dados$POP2 <- factor(dados$POP2, levels = unique(dados$POP2))
+
+dados$branco <- ifelse(dados$TESTE == 0, TRUE, FALSE)
+
+
+ggplot(dados, aes(x = POP1, y = POP2, fill = ifelse(branco == TRUE, NA, p_adj))) + 
+  geom_tile(color = "white") + 
+  geom_text(aes(
+    label = ifelse(branco == TRUE, "", formatado),  # Não mostrar rótulos nas células brancas
+    fontface = ifelse(p_adj < 0.001, "bold", "plain")),
+    color = "black", size = 3) +
+  scale_fill_gradient(low = "#00B1E2",  high = "white",  name = "p adj value",  na.value = "white", 
+                      limits = c(0.001, max(dados$p_adj, na.rm = TRUE)),  # Definindo o limite inferior da escala
+                      oob = scales::squish ) +  # Colorir de branco para TESTE == 0
+  labs(y = "Populations", x = "Populations", title = "χ2 (Chi-squared test)") + 
+  theme_light()
+
