@@ -36,7 +36,7 @@ SNPs_separados1KG <- SNPs_filtrados2 %>%
 
 # No haplo.em
 
-# Removi coluna "ID" (o comando pede só as colunas com os alelos)
+#removi coluna "ID" (o comando pede só as colunas com os alelos)
 SNPs1KGSemID <- SNPs_separados1KG
 SNPs1KGSemID$ID <- NULL
 
