@@ -1,3 +1,11 @@
+#====================================================================================
+# PERUVIAN NATIVES DATA
+#====================================================================================
+# Original Author: Isadora Tassoni and Caíque Manochio
+# Updated by (and date): Isadora Tassoni 26/03/2025
+# Command line:	
+
+
 #load packages
 library(pacman)
 pacman::p_load(vcfR, adegenet, haplo.stats, tibble, tidyr, dplyr, string, clipr, openxlsx, readxl)
@@ -27,7 +35,7 @@ SNPsfiltradosNAT2 <- SNPsfiltradosNAT2 [-1,]
 write.xlsx(SNPsfiltradosNAT2, 'SNPsNAT.xlsx')
 
 
-# ----------------------- Haplo.stats ----------------------- 
+# ----------------------- HAPLOSTATS ----------------------- 
 # No haplo.em
 
 # Separando os alelos em duas colunas
@@ -82,7 +90,7 @@ write.xlsx(resultadoNAT, 'resultadoNAT.xlsx', rowNames = F)
 
 
 
-# ----------------------- Cálculo de frequências -----------------------
+# ----------------------- FREQUENCY CALCULATION -----------------------
 
 # input da tabela Resultados NATperuanos
 library(readxl)
@@ -110,7 +118,7 @@ write.xlsx(freqNAT, 'freqNAT.xlsx', colNames = TRUE, rowNames = TRUE)
 
 
 
-# ----------------------- Regressão -----------------------
+# ----------------------- REGRESSION -----------------------
 
 # Lê o arquivo da Frequência e cria uma lista com os SNPs
 df <- read.xlsx(file.choose())
