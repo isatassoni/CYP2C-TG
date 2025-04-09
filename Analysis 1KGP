@@ -1,3 +1,11 @@
+#====================================================================================
+# 1000 GENOMES PROJECT DATA
+#====================================================================================
+# Original Author: Isadora Tassoni and Caíque Manochio
+# Updated by (and date): Isadora Tassoni 26/03/2025
+# Command line:	
+
+
 #load packages
 library(pacman)
 pacman::p_load(vcfR, adegenet, haplo.stats, tibble, tidyr, dplyr, string, clipr, openxlsx, readxl)
@@ -26,7 +34,7 @@ SNPs_filtrados2 <- SNPs_filtrados2 [-1,]
 write.xlsx(SNPs_filtrados2, 'SNPs1KG.xlsx', rowNames = F)
 
 
-# ----------------------- Haplo.stats ----------------------- 
+# ----------------------- HAPLOSTATS ----------------------- 
 # No haplo.em
 
 # Separando as colunas
@@ -77,7 +85,7 @@ resultado1KG <- summary(result.haplo)
 write.xlsx(resultado1KG, 'resultado1KG.xlsx', rowNames = F)
 
 
-# ----------------------- Cálculo de frequências -----------------------
+# ----------------------- FREQUENCY CALCULATION -----------------------
 
 # input da tabela input freq
 POP1KG <- read_xlsx(choose.files(), sheet = "1KGP")
@@ -107,7 +115,7 @@ write.xlsx(freq, 'freq1KG.xlsx', colNames = TRUE, rowNames = TRUE)
 
 
 
-# ----------------------- Regressão -----------------------
+# ----------------------- REGRESSION -----------------------
 
 # Lê o arquivo da Frequência e cria uma lista com os SNPs
 df <- read.xlsx(file.choose())
