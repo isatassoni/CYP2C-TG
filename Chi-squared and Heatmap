@@ -1,3 +1,12 @@
+#====================================================================================
+# CHI-SQUARED CALCULATION AND HEATMAP
+#====================================================================================
+# Original Author: Caíque Manochio and Isadora Tassoni
+# Updated by (and date): Isadora Tassoni 26/03/2025
+# Command line:	
+
+
+#load packages
 library(pacman)
 pacman::p_load(dplyr, readxl, ggplot2, tidyr, tools, openxlsx)
 
@@ -103,7 +112,7 @@ for (i in seq_along(planilhas)) {
 
 
 
-# ---------------------- Criando um gráfico heatmap ----------------------
+# ---------------------- HEATMAP ----------------------
 
 dados <- read_xlsx(choose.files(), sheet = "Sheet 1")
 dados <- dados %>%
