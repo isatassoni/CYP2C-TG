@@ -1,3 +1,11 @@
+#====================================================================================
+# CÁLCULO DE REGRESSÃO ENTRE FREQUÊNCIA ALÉLICA E MÉDIA DE ANCESTRALIDADE
+#====================================================================================
+# Original Author: Guilherme Belfort-Almeida and Fernanda Rodrigues-Soares
+# Updated by (and date): Guilherme Belfort Almeida 07/12/2024
+# Command line:	
+
+
 #load packages
 library(openxlsx)
 library(clipr)
