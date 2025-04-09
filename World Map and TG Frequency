@@ -1,3 +1,12 @@
+#====================================================================================
+# WORLD MAP AND TG FREQUENCY
+#====================================================================================
+# Original Author: Isadora Tassoni
+# Updated by (and date): Isadora Tassoni 09/04/2025
+# Command line:	
+
+
+#load packages
 library(pacman)
 pacman::p_load(dplyr, readxl, rnaturalearth, ggplot2, tidyr, mapdata,
                 sf, wbstats, rnaturalearthdata, tibble, ggrepel)
