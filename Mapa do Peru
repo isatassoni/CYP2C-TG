@@ -1,0 +1,81 @@
+#====================================================================================
+# MAPA TOPOGRÁFICO DO PERU
+#====================================================================================
+# Original Author: Isadora Tassoni
+# Updated by (and date): Isadora Tassoni 09/04/2025
+# Command line:	
+
+
+#load packages
+library(pacman)
+pacman::p_load(dplyr, readxl, ggplot2, tidyr, leaflet, geojsonio)
+
+
+# Data
+pop <- c("IQU", "MAT", "MOC", "TRU", "CHO", "CUS", "URO")
+long <- c("-73.246990", "-72.877121", "-79.000882", "-79.011145", "-74.666106", "-71.958553", "-69.970357")
+lat <- c("-3.756093", "-5.152378", "-8.171154", "-8.160493", "-12.729907", "-13.521732", "-15.803307")
+
+data <- data.frame(
+  pop = pop,
+  long = as.numeric(long),
+  lat = as.numeric(lat)
+)
+
+
+# Carregar o contorno do Peru (arquivo salvo localmente)
+peru <- geojson_read("peru.geojson.json", what = "sp")
+
+
+# Criar o mapa
+leaflet() %>%
+  addProviderTiles("Esri.WorldImagery") %>%
+  
+  # Contorno do Peru mais destacado
+  addPolygons(data = peru,
+              fill = TRUE,         # Preenchimento leve opcional
+              fillColor = "black",
+              fillOpacity = 0.1,   # Bem leve só pra dar contraste
+              color = "black",    # Cor do contorno
+              weight = 2,          # Espessura da borda
+              opacity = 1) %>%
+  
+  # Pontos
+  addCircleMarkers(data = data,
+                   lng = ~long, lat = ~lat,
+                   radius = 2,
+                   fillColor = "darkblue", fillOpacity = 0.8,
+                   color = "white", weight = 1,
+                   popup = ~pop) %>%
+  
+  # Ajuste da visualização para caber tudo
+  fitBounds(lng1 = min(data$long), lat1 = min(data$lat),
+            lng2 = max(data$long), lat2 = max(data$lat))
+
+m
+
+
+
+#====================================================================================
+# MAPA PADRÃO DO PERU
+#====================================================================================
+
+#load packages
+library(pacman)
+pacman::p_load(dplyr, readxl,
+               rnaturalearth, ggplot2, sf, wbstats, rnaturalearthdata, tibble)
+
+
+# Data
+peruanos <- read_xlsx(choose.files(), sheet = "Planilha1")
+
+
+# Criar o mapa
+peru <- ne_countries(country = "Peru", type = "map_units", returnclass = "sf")
+
+ggplot() +
+  geom_sf(data = peru) +
+  theme_minimal() +
+  geom_point(data = peruanos, aes(x = as.numeric(Longitude), y = as.numeric(Latitude), col = Population ), 
+             size = 2)
+
