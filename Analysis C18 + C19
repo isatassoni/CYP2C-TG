@@ -1,3 +1,11 @@
+#====================================================================================
+# CYP2C19-CYP2C18 ANALYSIS
+#====================================================================================
+# Original Author: Isadora Tassoni and Caíque Manochio
+# Updated by (and date): Isadora Tassoni 26/03/2025
+# Command line:	
+
+
 #load packages
 library(pacman)
 pacman::p_load(vcfR, adegenet, haplo.stats, tibble, tidyr, dplyr, string, clipr, openxlsx, readxl)
@@ -24,7 +32,7 @@ write.xlsx(resulthaplo1819, 'HaploStarTG.xlsx')
 write.xlsx(resulthaplo1819[["haplotype"]], "Combinações.xlsx")
 
 
-# ----------------------- Cálculo de frequências -----------------------
+# ----------------------- FREQUENCY CALCULATION -----------------------
 
 #Usar o input freq
 library(readxl)
@@ -70,7 +78,7 @@ freq1819 <- as.data.frame(freq1819)
 write.xlsx(freq1819, 'freq1819.xlsx', colNames = TRUE, rowNames = TRUE)
 
 
-# ----------------------- Correlação -----------------------
+# ----------------------- REGRESSION -----------------------
 
 # Lê o arquivo da Frequência Alélica e cria uma lista com os SNPs
 df <- read_xlsx(choose.files(), sheet = "2")
