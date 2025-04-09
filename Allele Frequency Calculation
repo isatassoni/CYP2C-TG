@@ -1,4 +1,12 @@
-# ----------------------- Freq Alélica -----------------------
+#====================================================================================
+# ALLELE FREQUENCY CALCULATION
+#====================================================================================
+# Original Author: Caíque Manochio and Isadora Tassoni
+# Updated by (and date): Isadora Tassoni 26/03/2025
+# Command line:	
+
+
+#load packages
 library(pacman)
 pacman::p_load(vcfR, adegenet, haplo.stats, tibble, tidyr, dplyr, string, clipr, openxlsx, readxl)
 
